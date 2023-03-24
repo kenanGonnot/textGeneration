@@ -7,6 +7,11 @@ Demonstration of text generation.
 * GPT-3 - via OpenAI API (ada)
 * Our own model (trained on a dataset of **** sentences for 6000 epochs) - _not available yet_
 
+## Run the app 
+```bash 
+docker build -t thekenken/text-generation-demo:latest . && docker push thekenken/text-generation-demo:latest && docker run -p 5001:5000 thekenken/text-generation-demo:latest
+```
+
 ## Info about the project
 
 * `app.py` - the main file of the app

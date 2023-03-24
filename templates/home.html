@@ -1,55 +1,81 @@
 <!DOCTYPE html>
-<html lang="en">
-{% extends "base.html"%}
-{% block title %}Text Generation{% endblock %}
-{% block content %}
+<html>
 <head>
-    <meta charset="utf-8">
-    <title>Démonstration de génération de texte</title>
-    <style>
-        body {
-            color: white;
-        }
-
-        h1 {
-            color: white;
-        }
-        .center {
-            margin-left: auto;
-            margin-right: auto;
-        }
-    </style>
+    <meta charset="UTF-8">
+    <title>Générateur de texte moderne</title>
+    <link href="../static/css/main.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
-<div class="center">
-    <h1>Démonstration de génération de texte</h1>
-    <form method="POST">
+<header>
+    <h1>Générateur de texte moderne</h1>
+</header>
+<div>
+    <form action="" method="POST">
         <label for="text_length">Longueur du texte (en mots) :</label>
-        <input type="number" id="text_length" name="text_length" required>
-<!--        Choisir un chiffre entre 0 et 1 float -->
+        <input type="number" id="text_length" name="text_length" value="100" required>
+        <!--        Choisir un chiffre entre 0 et 1 float, inout type "range" -->
         <label for="temperature">Temperature :</label>
-        <input type="number" id="temperature" name="temperature" step="0.1" min="0" max="1" required>
+        <input type="range" id="temperature" name="temperature" step="0.1" min="0" max="1" value="0.8" required>
+        <p>Value:
+            <output id="value">0.8</output>
+        </p>
         <!--      Liste déroulante -->
-        <label for="model-select">Choose a Model:</label>
-        <select name="model-select" id="model-select" required>
+        <label for="model_select">Choose a Model:</label>
+        <select name="model_select" id="model_select" required>
             <option value="">--Please choose a model--</option>
             <option value="openai">OpenAI (Ada)</option>
             <option value="gpt2">GPT-2</option>
             <option value="kenbot">Our-Model</option>
         </select>
 
-        <br>
-        <label for="starting_text">Texte de départ (facultatif) :</label>
-        <input type="text" id="starting_text" name="starting_text">
-        <br>
-        <input type="submit" value="Générer">
+        <label for="input_text">Écrivez une phrase :</label>
+        <input type="text" id="input_text" name="input_text"
+               placeholder="Exemple : Le mois dernier, je suis parti au Japon et j'ai visité">
+        <button id="submit" type="submit">Générer</button>
     </form>
 </div>
-{% if generated_text %}
-<h2>Texte généré :</h2>
-<p>{{ generated_text }}</p>
-{% endif %}
-</body>
 
-{% endblock %}
+<div class="generated_text">
+    {% if generated_text %}
+    <h2>Texte généré :</h2>
+    <p id="generated_text">{{ generated_text }}</p>
+    {% endif %}
+</div>
+<footer>
+    <p>&copy; 2023 Générateur de texte moderne.</p>
+</footer>
+<!--Ajouter script JS src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js" -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="../static/scripts/main.js"></script>
+
+<script>
+    // const lengthInput = document.getElementById('temperature');
+    // const lengthOutput = document.getElementById('value');
+    //
+    // lengthInput.addEventListener('input', (event) => {
+    //     lengthOutput.textContent = event.target.value;
+    // });
+    //
+    // const generatedText = document.getElementById('generated_text');
+    // const text = generatedText.innerText;
+    // generatedText.innerText = '';
+    //
+    // let i = 0;
+    // const intervalId = setInterval(() => {
+    //     if (i >= text.length) {
+    //         clearInterval(intervalId);
+    //     } else {
+    //         const char = text[i];
+    //         if (char === ' ') {
+    //             generatedText.innerHTML += '&nbsp;';
+    //         } else {
+    //             generatedText.innerText += char;
+    //         }
+    //         i++;
+    //     }
+    // }, 50);
+
+</script>
+</body>
 </html>
