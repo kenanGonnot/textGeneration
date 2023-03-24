@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: text-generation
+  name: text-generation
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: text-generation
+  template:
+    metadata:
+      labels:
+        app: text-generation
+    spec:
+      containers:
+        - image: thekenken/text-generation-demo:latest
+          name: text-generation
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 5000
+              name: text-generation
