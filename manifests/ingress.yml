@@ -3,7 +3,8 @@ kind: Ingress
 metadata:
   name: text-generation-ingress
   annotations:
-    kubernetes.io/ingress.class: gce
+    kubernetes.io/ingress.class: azure/application-gateway
+    appgw.ingress.kubernetes.io/ssl-redirect: "true"
 spec:
   rules:
     - http:
