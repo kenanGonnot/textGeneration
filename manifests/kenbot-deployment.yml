@@ -18,6 +18,13 @@ spec:
         - image: thekenken/text-generation-demo:latest
           name: text-generation
           imagePullPolicy: Always
+          resources:
+            requests:
+              cpu: 500m
+              memory: 512Mi
+            limits:
+              cpu: "4"
+              memory: 1Gi
           ports:
             - containerPort: 5000
               name: text-generation
