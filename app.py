@@ -14,9 +14,9 @@ def k():
     return render_template('example.html')
 
 
-# @app.route('/')
-# def home():
-#     return render_template('home.html')
+@app.route('/test')
+def test():
+    render_template('openai.html')
 
 
 @app.route("/", methods=["GET", "POST"])
@@ -32,6 +32,7 @@ def generate_text():
         if which_mode == 'gpt2':
             generated_text = text_generation.generate_text_gpt2(text_length, input_text, model_name="gpt2",
                                                                 temperature=temperature)
+            input_text = ''
         elif which_mode == 'openai':
             generated_text = text_generation.generate_text_openai(text_length, input_text, model_name="ada",
                                                                   temperature=temperature)
@@ -47,11 +48,10 @@ def generate_text():
         return render_template('home.html')
 
 
-# renvoyer le texte généré à la page HTML
-
-
-# else:
-#     return render_template('home.html')
+# Route pour la page d'erreur 404
+@app.errorhandler(404)
+def not_found_error(error):
+    return render_template('error.html'), 404
 
 
 if __name__ == "__main__":
