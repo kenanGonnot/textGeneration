@@ -20,11 +20,11 @@ spec:
           imagePullPolicy: Always
           resources:
             requests:
-              cpu: 500m
+#              cpu: 500m
               memory: 512Mi
             limits:
               cpu: "4"
-              memory: 1Gi
+              memory: 3Gi
           ports:
             - containerPort: 5000
               name: text-generation
