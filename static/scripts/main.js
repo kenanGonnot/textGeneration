@@ -17,12 +17,18 @@ const intervalId = setInterval(() => {
         const char = text[i];
         if (char === ' ') {
             generatedText.innerHTML += '&nbsp;';
+        } else if (char === '\n') {
+            generatedText.innerHTML += '<br>';
         } else {
             generatedText.innerText += char;
+            if (i < text.length - 1 && text[i + 1] === ' ') {
+                generatedText.innerHTML += ' ';
+            }
         }
         i++;
     }
 }, 50);
+
 
 // $(document).ready(function () {
 //     $('form').on('submit', function (event) {
