@@ -14,11 +14,6 @@ def k():
     return render_template('example.html')
 
 
-@app.route('/test')
-def test():
-    render_template('openai.html')
-
-
 @app.route("/", methods=["GET", "POST"])
 def generate_text():
     if request.method == "POST":
