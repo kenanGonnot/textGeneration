@@ -2,10 +2,14 @@
 
 Demonstration of text generation.
 
+
+![](static/img/homepage.png)
+
+
 3 models are available:
-* GPT-2 - HuggingFace
+* GPT-2 (100M parameters) - HuggingFace
 * GPT-3 - via OpenAI API (ada)
-* Our own model (trained on a dataset of **** sentences for 6000 epochs) - _not available yet_
+* Our own model - (10M parameters) trained on a dataset of X sentences for 6000 epochs - _not available yet_
 
 ## Run the app 
 ```bash 
@@ -21,6 +25,8 @@ docker build -t thekenken/text-generation-demo:latest . && docker push thekenken
 * `templates/` - the folder that contains the html files
 * `Dockerfile` - to launch the app on localhost:5000
 
+## Result
+![](static/img/result.png)
 
 # Contact
 [moi](https://www.linkedin.com/in/kenan-gonnot/)
