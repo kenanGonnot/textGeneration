@@ -5,7 +5,7 @@ set -e
 echo ""
 echo "Building project..."
 echo ""
-#docker buildx build --platform linux/amd64 -t thekenken/ovo-mentor-qcm:latest . && docker push thekenken/ovo-mentor-qcm:latest
+#docker buildx build --platform linux/amd64 -t thekenken/text-generation-demo:latest . && docker push thekenken/text-generation-demo:latest
 docker build -t thekenken/text-generation-demo:latest . && docker push thekenken/text-generation-demo:latest
 
 
