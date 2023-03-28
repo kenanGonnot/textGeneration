@@ -9,11 +9,6 @@ app = Flask(__name__)
 openai.api_key = OPENAI_API_KEY
 
 
-@app.route('/k')
-def k():
-    return render_template('example.html')
-
-
 @app.route("/", methods=["GET", "POST"])
 def generate_text():
     if request.method == "POST":
