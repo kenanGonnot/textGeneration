@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request
 from secret_key import OPENAI_API_KEY
 import os
 import openai
@@ -34,6 +34,7 @@ def generate_text():
         elif which_mode == 'kenbot':
             # generated_text = text_generation.generate_text_kenbot(text_length, input_text, PATH="model.pt")
             generated_text = "Le modèle Kenbot n'est pas encore disponible"
+            input_text = ''
         else:
             generated_text = "Mode de génération de texte invalide"
         # generated_text.wait()
