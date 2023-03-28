@@ -1,6 +1,6 @@
 # Text Generation - Transformers
 
-Demonstration of text generation.
+### Demonstration of text generation.
 
 
 ![](static/img/homepage.png)
@@ -15,13 +15,18 @@ Demonstration of text generation.
 ```bash 
 docker build -t thekenken/text-generation-demo:latest . && docker push thekenken/text-generation-demo:latest && docker run -p 5001:5000 thekenken/text-generation-demo:latest
 ```
+for M1 Macs:
+```bash
+docker buildx build --platform linux/amd64 -t thekenken/text-generation-demo:latest . && docker push thekenken/text-generation-demo:latest
+```
 
 ## Info about the project
 
 * `app.py` - the main file of the app
 * `requirements.txt` - the list of requirements
 * `text_generation.py` - the file that generate the text
-* `manifests/` - the folder that contains the manifest files (k8s specifications) 
+* `manifests/` - the folder that contains the manifest files (k8s specifications)
+  * `Ingress.yml` - to expose the app on the internet via Azure Kubernetes Service
 * `templates/` - the folder that contains the html files
 * `Dockerfile` - to launch the app on localhost:5000
 
