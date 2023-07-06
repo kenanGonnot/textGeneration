@@ -27,8 +27,8 @@ def generate_text():
             generated_text = text_generation.generate_text_openai(text_length, input_text, model_name="ada",
                                                                   temperature=temperature)
         elif which_mode == 'kenbot':
-            # generated_text = text_generation.generate_text_kenbot(text_length, input_text, PATH="model.pt")
-            generated_text = "Le modèle Kenbot n'est pas encore disponible"
+            generated_text = text_generation.generate_text_kenbot(text_length, input_text, PATH="./saved_model/saved-tiktoken-64batch-128block-255440-ite-x_xx")
+            # generated_text = "Le modèle Kenbot n'est pas encore disponible"
             input_text = ''
         else:
             generated_text = "Mode de génération de texte invalide"

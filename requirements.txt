@@ -1,7 +1,9 @@
-flask==2.2.3
+flask~=2.3.2
 openai==0.27.2
 transformers==4.18.0
 # https://download.pytorch.org/whl/cpu/torch-1.6.0%2Bcpu-cp37-cp37m-linux_x86_64.whl
 protobuf==3.18.1
-tensorflow==2.7.0
+# tensorflow #-macos #  ==2.13.0
+tiktoken
 # tensorflow-gpu==2.7.0
+torch~=1.13.1

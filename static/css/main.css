@@ -9,7 +9,7 @@ html {
 }
 
 body {
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Lora' , sans-serif;
     background-color: #f5f5f5;
     color: #333;
     display: flex;
@@ -18,7 +18,7 @@ body {
 }
 
 header {
-    background-color: #222;
+    background-color: #151515;
     color: #fff;
     padding: 20px;
     text-align: center;
@@ -55,7 +55,7 @@ input[type=text] {
 
 button {
     font-size: 18px;
-    background-color: #222;
+    background-color: #572efe;
     color: #fff;
     padding: 10px 20px;
     border: none;
@@ -81,7 +81,7 @@ output {
 }
 
 footer {
-    background-color: #333;
+    background-color: #151515;
     color: #fff;
     /*padding: 20px;*/
     text-align: center;

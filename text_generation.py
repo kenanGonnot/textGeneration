@@ -1,6 +1,7 @@
 import openai
-from transformers import GPT2Tokenizer, TFGPT2LMHeadModel
-# import model as gpt
+import torch
+from transformers import GPT2Tokenizer, GPT2LMHeadModel #TFGPT2LMHeadModel
+import model as gpt
 
 
 def generate_text_openai(text_length, starting_text, model_name="ada", temperature=0.8):
@@ -38,15 +39,23 @@ def generate_text_gpt2(text_length, starting_text, model_name="gpt2",
     """
     # Générer le texte avec HuggingFace GPT-2
     tokenizer = GPT2Tokenizer.from_pretrained(model_name)
-    model = TFGPT2LMHeadModel.from_pretrained(model_name, pad_token_id=tokenizer.eos_token_id)
+    model = GPT2LMHeadModel.from_pretrained(model_name, pad_token_id=tokenizer.eos_token_id) #TFGPT2LMHeadModel for tensorflow
 
-    encoded_input = tokenizer.encode(starting_text, return_tensors='tf')
+    encoded_input = tokenizer.encode(starting_text, return_tensors='pt')
     output = model.generate(encoded_input, max_length=text_length, do_sample=True, temperature=temperature)
     return tokenizer.decode(output[0], skip_special_tokens=True)
 
 
 def generate_text_kenbot(text_length, starting_text, PATH):
+    """
+    Générer du texte avec notre propre modèle
+    :param text_length:
+    :param starting_text:
+    :param temperature: pas utilisé maintenant
+    :return:
+    """
     model = gpt.GPTLanguageModel()
-    model.load_state_dict(torch.load(PATH))
+    model.load_state_dict(torch.load(PATH, map_location=torch.device('cpu')))
     model.eval()
-    return None
+    text_generated = model.get_text_generated(text_length, starting_text)
+    return text_generated

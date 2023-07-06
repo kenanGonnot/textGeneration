@@ -12,6 +12,7 @@ COPY *.py ./
 
 COPY templates templates
 COPY static static
+COPY saved_model saved_model
 
 CMD [ "python", "app.py" ]
 
