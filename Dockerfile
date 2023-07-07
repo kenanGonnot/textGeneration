@@ -6,13 +6,12 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 # Téléchargement du modèle GPT-2
 #RUN python -c "from transformers import GPT2Tokenizer, TFGPT2LMHeadModel; tokenizer = GPT2Tokenizer.from_pretrained('gpt2'); model = TFGPT2LMHeadModel.from_pretrained('gpt2')"
-
+COPY saved_model saved_model
 
 COPY *.py ./
 
-COPY templates templates
 COPY static static
-COPY saved_model saved_model
+COPY templates templates
 
 CMD [ "python", "app.py" ]
 
