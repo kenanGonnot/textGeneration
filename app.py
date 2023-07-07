@@ -22,7 +22,7 @@ def generate_text():
     content_type = request.headers.get('Content-Type')
     if content_type == 'application/json':
         data = request.get_json()
-        data = json.loads(data)
+        # data = json.loads(data)
         text_length = int(data['text_length'])
         input_text = data['input_text']
         temperature = float(data['temperature'])
