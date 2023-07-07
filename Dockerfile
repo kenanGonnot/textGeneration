@@ -16,4 +16,4 @@ COPY saved_model saved_model
 
 CMD [ "python", "app.py" ]
 
-EXPOSE 5000
+EXPOSE 5002

@@ -12,29 +12,30 @@
     <h1>Générateur de texte</h1>
 </header>
 <div>
-    <form action="" method="POST">
-        <label for="text_length">Longueur du texte (en mots) :</label>
-        <input type="number" id="text_length" name="text_length" value="100" required>
-        <!--        Choisir un chiffre entre 0 et 1 float, inout type "range" -->
-        <label for="temperature">Temperature :</label>
-        <input type="range" id="temperature" name="temperature" step="0.1" min="0" max="1" value="0.8" required>
-        <p>Value:
-            <output id="value">0.8</output>
-        </p>
-        <!--      Liste déroulante -->
-        <label for="model_select">Choose a Model:</label>
-        <select name="model_select" id="model_select" required>
-            <option value="">--Please choose a model--</option>
-            <option value="kenbot">Our-Model (~119M parameters)</option>
-            <option value="openai">OpenAI - Ada</option>
-            <option value="gpt2">GPT-2 (100M parameters)</option>
-        </select>
+    <button href="http://kenan-portfolio:80/" title="Home">Home</button>
+        <form action="" method="POST">
+            <label for="text_length">Longueur du texte (en mots) :</label>
+            <input type="number" id="text_length" name="text_length" value="100" required>
+            <!--        Choisir un chiffre entre 0 et 1 float, inout type "range" -->
+            <label for="temperature">Temperature :</label>
+            <input type="range" id="temperature" name="temperature" step="0.1" min="0" max="1" value="0.8" required>
+            <p>Value:
+                <output id="value">0.8</output>
+            </p>
+            <!--      Liste déroulante -->
+            <label for="model_select">Choose a Model:</label>
+            <select name="model_select" id="model_select" required>
+                <option value="">--Please choose a model--</option>
+                <option value="kenbot">Our-Model (~119M parameters)</option>
+                <option value="openai">OpenAI - Ada</option>
+                <option value="gpt2">GPT-2 (100M parameters)</option>
+            </select>
 
-        <label for="input_text">Écrivez une phrase :</label>
-        <input type="text" id="input_text" name="input_text"
-               placeholder="Exemple : Le mois dernier, je suis parti au Japon et j'ai visité">
-        <button id="submit" type="submit">Générer</button>
-    </form>
+            <label for="input_text">Écrivez une phrase :</label>
+            <input type="text" id="input_text" name="input_text"
+                   placeholder="Exemple : Le mois dernier, je suis parti au Japon et j'ai visité">
+            <button id="submit" type="submit">Générer</button>
+        </form>
 </div>
 
 <div class="generated_text">

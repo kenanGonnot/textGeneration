@@ -26,5 +26,5 @@ spec:
 #              cpu: "4"
 #              memory: 3Gi
           ports:
-            - containerPort: 5000
+            - containerPort: 5002
               name: text-generation
