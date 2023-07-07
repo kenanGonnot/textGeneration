@@ -1,4 +1,6 @@
-from flask import Flask, render_template, request
+import json
+
+from flask import Flask, render_template, request, jsonify
 from secret_key import OPENAI_API_KEY
 import os
 import openai
@@ -8,35 +10,58 @@ app = Flask(__name__)
 
 openai.api_key = OPENAI_API_KEY
 
+error_message = {
+    "error_message": "error"
+}
 
-@app.route("/", methods=["GET", "POST"])
+app.config['CORS_HEADERS'] = 'Content-Type'
+
+
+@app.route("/v1/text_generation", methods=["GET", "POST"])
 def generate_text():
-    if request.method == "POST":
-        # récupérer les paramètres de la requête POST
-        text_length = int(request.form['text_length'])
-        input_text = request.form['input_text']
-        temperature = float(request.form['temperature'])
-        which_mode = request.form['model_select']
+    content_type = request.headers.get('Content-Type')
+    if content_type == 'application/json':
+        data = request.get_json()
+        data = json.loads(data)
+        text_length = int(data['text_length'])
+        input_text = data['input_text']
+        temperature = float(data['temperature'])
+        which_mode = data['model_select']
 
-        # appeler la fonction de génération de texte
-        if which_mode == 'gpt2':
-            generated_text = text_generation.generate_text_gpt2(text_length, input_text, model_name="gpt2",
-                                                                temperature=temperature)
-            input_text = ''
-        elif which_mode == 'openai':
-            generated_text = text_generation.generate_text_openai(text_length, input_text, model_name="ada",
-                                                                  temperature=temperature)
-        elif which_mode == 'kenbot':
-            generated_text = text_generation.generate_text_kenbot(text_length, input_text, PATH="./saved_model/saved-tiktoken-64batch-128block-255440-ite-x_xx")
-            # generated_text = "Le modèle Kenbot n'est pas encore disponible"
-            input_text = ''
-        else:
-            generated_text = "Mode de génération de texte invalide"
+        input_text, text_generated = get_text_generated(input_text, temperature, text_length, which_mode)
         # generated_text.wait()
         # return jsonify({'generated_text': generated_text})
-        return render_template('home.html', generated_text=input_text + " " + generated_text)
+        response = {
+            "text_length": text_length,
+            "input_text": input_text,
+            "temperature": temperature,
+            "model_select": which_mode,
+            "text_generated": text_generated
+        }
+        return jsonify(response)
+        # return render_template('home.html', generated_text=input_text + " " + text_generated)
     else:
-        return render_template('home.html')
+        return jsonify(error_message)
+        # return render_template('home.html')
+
+
+def get_text_generated(input_text, temperature, text_length, which_mode):
+    # appeler la fonction de génération de texte
+    if which_mode == 'gpt2':
+        text_generated = text_generation.generate_text_gpt2(text_length, input_text, model_name="gpt2",
+                                                            temperature=temperature)
+        input_text = ''
+    elif which_mode == 'openai':
+        text_generated = text_generation.generate_text_openai(text_length, input_text, model_name="ada",
+                                                              temperature=temperature)
+    elif which_mode == 'kenbot':
+        text_generated = text_generation.generate_text_kenbot(text_length, input_text,
+                                                              PATH="./saved_model/saved-tiktoken-64batch-128block-255440-ite-x_xx")
+        # generated_text = "Le modèle Kenbot n'est pas encore disponible"
+        input_text = ''
+    else:
+        text_generated = "Mode de génération de texte invalide"
+    return input_text, text_generated
 
 
 # Route pour la page d'erreur 404
