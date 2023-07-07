@@ -46,7 +46,7 @@ def generate_text_gpt2(text_length, starting_text, model_name="gpt2",
     return tokenizer.decode(output[0], skip_special_tokens=True)
 
 
-def generate_text_kenbot(text_length, starting_text, PATH):
+def generate_text_kenbot(model, text_length, starting_text, PATH):
     """
     Générer du texte avec notre propre modèle
     :param text_length:
@@ -54,8 +54,8 @@ def generate_text_kenbot(text_length, starting_text, PATH):
     :param temperature: pas utilisé maintenant
     :return:
     """
-    model = gpt.GPTLanguageModel()
-    model.load_state_dict(torch.load(PATH, map_location=torch.device('cpu')))
-    model.eval()
+    # model = gpt.GPTLanguageModel()
+    # model.load_state_dict(torch.load(PATH, map_location=torch.device('cpu')))
+    # model.eval()
     text_generated = model.get_text_generated(text_length, starting_text)
     return text_generated

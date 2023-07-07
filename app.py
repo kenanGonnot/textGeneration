@@ -1,14 +1,20 @@
 import json
 
+import torch
 from flask import Flask, render_template, request, jsonify
 from secret_key import OPENAI_API_KEY
 import os
 import openai
 import text_generation
+import model as gpt
 
 app = Flask(__name__)
 
 openai.api_key = OPENAI_API_KEY
+PATH = "./saved_model/saved-tiktoken-64batch-128block-255440-ite-x_xx"
+
+model = gpt.GPTLanguageModel()
+model.load_state_dict(torch.load(PATH, map_location=torch.device('cpu')))
 
 error_message = {
     "error_message": "error"
@@ -55,8 +61,8 @@ def get_text_generated(input_text, temperature, text_length, which_mode):
         text_generated = text_generation.generate_text_openai(text_length, input_text, model_name="ada",
                                                               temperature=temperature)
     elif which_mode == 'kenbot':
-        text_generated = text_generation.generate_text_kenbot(text_length, input_text,
-                                                              PATH="./saved_model/saved-tiktoken-64batch-128block-255440-ite-x_xx")
+        text_generated = text_generation.generate_text_kenbot(model, text_length, input_text,
+                                                              PATH=PATH)
         # generated_text = "Le modèle Kenbot n'est pas encore disponible"
         input_text = ''
     else:

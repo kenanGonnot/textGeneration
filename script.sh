@@ -5,8 +5,8 @@ set -e
 echo ""
 echo "Building project..."
 echo ""
-#docker buildx build --platform linux/amd64 -t thekenken/text-generation-demo:latest . && docker push thekenken/text-generation-demo:latest
-docker build -t thekenken/text-generation-demo:latest . && docker push thekenken/text-generation-demo:latest
+docker buildx build --platform linux/amd64 -t thekenken/text-generation-demo:latest . && docker push thekenken/text-generation-demo:latest
+#docker build -t thekenken/text-generation-demo:latest . && docker push thekenken/text-generation-demo:latest
 
 
 echo ""
@@ -22,7 +22,7 @@ echo ""
 #kubectl delete -f manifests/qcm-ovo-deployment.yml
 #kubectl apply -f manifests/qcm-ovo-deployment.yml
 
-
+kubectl delete -f manifests/deployment.yml && kubectl apply -f manifests/deployment.yml && kubectl get po,svc,ing
 echo ""
 echo "Done deploying project!"
 sleep 1
