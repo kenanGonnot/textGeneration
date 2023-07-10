@@ -1,4 +1,6 @@
 import json
+import logging
+import time
 
 import torch
 from flask import Flask, render_template, request, jsonify
@@ -9,6 +11,10 @@ import text_generation
 import model as gpt
 
 app = Flask(__name__)
+
+app.logger.setLevel(logging.DEBUG)
+file_handler = logging.FileHandler('app.log')
+app.logger.addHandler(file_handler)
 
 openai.api_key = OPENAI_API_KEY
 PATH = "./saved_model/saved-tiktoken-64batch-128block-255440-ite-x_xx"
@@ -23,6 +29,11 @@ error_message = {
 app.config['CORS_HEADERS'] = 'Content-Type'
 
 
+@app.route("/")
+def home():
+    return render_template("base.html")
+
+
 @app.route("/v1/text_generation", methods=["GET", "POST"])
 def generate_text():
     content_type = request.headers.get('Content-Type')
@@ -33,8 +44,9 @@ def generate_text():
         input_text = data['input_text']
         temperature = float(data['temperature'])
         which_mode = data['model_select']
-
+        start_time = time.time()
         input_text, text_generated = get_text_generated(input_text, temperature, text_length, which_mode)
+        app.logger.debug('Generation de texte fini : %s', time.time() - start_time)
         # generated_text.wait()
         # return jsonify({'generated_text': generated_text})
         response = {
@@ -61,8 +73,11 @@ def get_text_generated(input_text, temperature, text_length, which_mode):
         text_generated = text_generation.generate_text_openai(text_length, input_text, model_name="ada",
                                                               temperature=temperature)
     elif which_mode == 'kenbot':
+        start_time = time.time()
+
         text_generated = text_generation.generate_text_kenbot(model, text_length, input_text,
                                                               PATH=PATH)
+        app.logger.debug('Fin generation ken : %s', time.time() - start_time)
         # generated_text = "Le modèle Kenbot n'est pas encore disponible"
         input_text = ''
     else:

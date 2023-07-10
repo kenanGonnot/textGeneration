@@ -1,3 +1,5 @@
+import time
+
 import tiktoken
 import torch
 import torch.nn as nn
@@ -15,7 +17,7 @@ n_head = 6
 n_layer = 6
 dropout = 0.2
 
-tokenizers = tiktoken.get_encoding("gpt2") #gpt2 cl100k_base
+tokenizers = tiktoken.get_encoding("gpt2")  # gpt2 cl100k_base
 vocab_size = tokenizers.n_vocab
 
 
@@ -157,11 +159,47 @@ class GPTLanguageModel(nn.Module):
             idx = torch.cat((idx, idx_next), dim=1)  # (B, T+1)
         return idx
 
+    def generate_optimized(self, idx, max_new_tokens):
+        # idx is (B, T) array of indices in the current context
+
+        # crop idx to the last block_size tokens
+        idx_cond = idx[:, -block_size:]  # Adjusted to self.block_size
+
+        generated_tokens = []
+
+        with torch.no_grad():  # Disable gradient tracking for improved performance
+            for _ in range(max_new_tokens):
+                # get the predictions
+                logits, _ = self(idx_cond)
+                # focus only on the last time step
+                logits = logits[:, -1, :]  # becomes (B, C)
+                # apply softmax to get probabilities
+                probs = F.softmax(logits, dim=-1)  # (B, C)
+                # sample from the distribution
+                idx_next = torch.multinomial(probs, num_samples=1)  # (B, 1)
+                # append sampled index to the running sequence
+                generated_tokens.append(idx_next)
+                # update idx_cond for the next iteration
+                idx_cond = torch.cat((idx_cond[:, 1:], idx_next), dim=1)  # Adjusted to remove the first token
+
+        # concatenate all generated tokens
+        generated_tokens = torch.cat(generated_tokens, dim=1)  # (B, max_new_tokens)
+        idx = torch.cat((idx, generated_tokens), dim=1)  # (B, T+max_new_tokens)
+
+        return idx
+
     def get_text_generated(self, max_length, start_sentences):
-        context = torch.tensor([tokenizers.encode(start_sentences)], dtype=torch.long, device=device)
+        # context = torch.tensor([tokenizers.encode(start_sentences)], dtype=torch.long, device=device)
+        # context = torch.tensor(tokenizers.encode(start_sentences), dtype=torch.long).to(device)
+        start_time = time.time()
+        context = torch.tensor(tokenizers.encode(start_sentences), dtype=torch.long).unsqueeze(0).to(device)
+        print("Encoded time: %s", time.time() - start_time)
 
-        return tokenizers.decode(self.generate(context, max_new_tokens=max_length)[0].tolist())
+        # return tokenizers.decode(self.generate_optimized(context, max_new_tokens=max_length)[0].tolist())
+        generated_tokens = self.generate_optimized(context, max_new_tokens=max_length)[0]
+        decoded_text = tokenizers.decode(generated_tokens.tolist())
 
+        return decoded_text
 
 # model = GPTLanguageModel()
 # m = model.to(device)
