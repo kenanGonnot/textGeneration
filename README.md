@@ -13,11 +13,16 @@
 
 ## Run the app 
 ```bash 
-docker build -t thekenken/text-generation-demo:latest . && docker push thekenken/text-generation-demo:latest && docker run -p 5001:5000 thekenken/text-generation-demo:latest
+docker build -t thekenken/text-generation-demo:latest . && docker push thekenken/text-generation-demo:latest && docker run -p 5002:5000 thekenken/text-generation-demo:latest
 ```
 for M1 Macs:
 ```bash
 docker buildx build --platform linux/amd64 -t thekenken/text-generation-demo:latest . && docker push thekenken/text-generation-demo:latest
+```
+
+for dev:
+```bash 
+docker build -t thekenken/text-generation-demo:dev . && docker run -p 5002:5002 thekenken/text-generation-demo:dev
 ```
 
 ## Info about the project
