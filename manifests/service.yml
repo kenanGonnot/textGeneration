@@ -5,7 +5,7 @@ metadata:
     app: text-generation
   name: text-generation
 spec:
-  type: LoadBalancer
+#  type: LoadBalancer
   ports:
   - name: text-generation-service
     port: 5002
