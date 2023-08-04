@@ -34,12 +34,13 @@ def home():
     return render_template("base.html")
 
 
-@app.route("/v1/text_generation", methods=["GET", "POST"])
+@app.route("/v1/inference/text_generation", methods=["GET", "POST"])
 def generate_text():
     content_type = request.headers.get('Content-Type')
     if content_type == 'application/json':
         data = request.get_json()
-        # data = json.loads(data)
+        data = json.loads(data)
+        app.logger.debug(data)
         text_length = int(data['text_length'])
         input_text = data['input_text']
         temperature = float(data['temperature'])
